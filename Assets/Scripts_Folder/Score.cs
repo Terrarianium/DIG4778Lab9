@@ -17,6 +17,7 @@ public class Score : MonoBehaviour
         scoreNumber = 0;
         oldScore = 0;
         ScoreUpdate();
+        Bullet.AddScore += ScoreUpdate;
     }
 
     // Update is called once per frame
@@ -28,17 +29,7 @@ public class Score : MonoBehaviour
         }
     }
 
-    void Enemy1Score()
-    {
-        scoreNumber += 5;
-    }
-
-    void Enemy2Score()
-    {
-        scoreNumber += 10;
-    }
-
-    void ScoreUpdate()
+    void ScoreUpdate(int score)
     {
         ScoreText.text = "Score: " + scoreNumber.ToString();
 
