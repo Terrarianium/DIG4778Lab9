@@ -34,6 +34,5 @@ public class Bullet : MonoBehaviour
         int.TryParse(pointValue, out int value);
         scoreAdd?.Invoke(value);
         Destroy(gameObject);
-
     }
 }
