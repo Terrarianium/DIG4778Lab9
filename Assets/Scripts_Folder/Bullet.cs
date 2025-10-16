@@ -8,8 +8,9 @@ public class Bullet : MonoBehaviour
 
     private float yVelocity;
 
-    public delegate void AddScore();
-    public static event AddScore scoreAdd;
+    private string pointValue;
+
+    private int score;
 
     // Start is called before the first frame update
     void Start()
@@ -26,11 +27,17 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "1" || collision.gameObject.tag == "2" || collision.gameObject.tag == "3")
         {
-            int score = int.Parse(collision.gameObject.tag);
-            scoreAdd.Invoke(score);
+            pointValue = collision.gameObject.tag.ToString();
+            int.TryParse(pointValue, out int value);
+            score = value;
             Destroy(gameObject);
         }
+    }
+
+    void OnDestroy()
+    {
+        Score.scoreNumber += score;
     }
 }
