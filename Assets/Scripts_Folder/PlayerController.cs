@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
     {
         playerPosition = new Vector2(transform.position.x, transform.position.y);
         playerPosition.x += moveInput.x * Time.deltaTime * speed;
-        transform.position = new Vector2(Mathf.Clamp(playerPosition.x, -19, 19), transform.position.y);
+        transform.position = new Vector2(Mathf.Clamp(playerPosition.x, -18, 18), transform.position.y);
     }
 
 }
