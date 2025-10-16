@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Diagnostics;
 using TMPro;
+using UnityEngine;
 
 public class Score : MonoBehaviour
 {
@@ -12,13 +13,16 @@ public class Score : MonoBehaviour
 
     public TMP_Text ScoreText;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
         scoreNumber = 0;
         oldScore = 0;
         scoreValue = 0;
-        ScoreUpdate();
+        Bullet.scoreAdd += ScoreUpdate;
+        ScoreUpdate(scoreNumber);
     }
 
     // Update is called once per frame
@@ -26,16 +30,16 @@ public class Score : MonoBehaviour
     {
         if (scoreNumber != oldScore)
         {
-            ScoreUpdate();
+            ScoreUpdate(scoreNumber);
         }
     }
 
-    void ScoreUpdate()
+    void ScoreUpdate(int value)
     {
+        scoreNumber += value;
         scoreValue = scoreNumber;
         ScoreText.text = "Score: " + scoreValue.ToString();
 
         oldScore = scoreNumber;
     }
-
 }
