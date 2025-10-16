@@ -6,8 +6,9 @@ using TMPro;
 public class Score : MonoBehaviour
 {
 
-    private int scoreNumber;
+    public static int scoreNumber;
     private int oldScore;
+    private int scoreValue;
 
     public TMP_Text ScoreText;
 
@@ -16,6 +17,7 @@ public class Score : MonoBehaviour
     {
         scoreNumber = 0;
         oldScore = 0;
+        scoreValue = 0;
         ScoreUpdate();
     }
 
@@ -28,21 +30,12 @@ public class Score : MonoBehaviour
         }
     }
 
-    void Enemy1Score()
-    {
-        scoreNumber += 5;
-    }
-
-    void Enemy2Score()
-    {
-        scoreNumber += 10;
-    }
-
     void ScoreUpdate()
     {
-        ScoreText.text = "Score: " + scoreNumber.ToString();
+        scoreValue = scoreNumber;
+        ScoreText.text = "Score: " + scoreValue.ToString();
 
-        scoreNumber = oldScore;
+        oldScore = scoreNumber;
     }
 
 }

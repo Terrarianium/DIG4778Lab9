@@ -10,6 +10,12 @@ public class PlayerController : MonoBehaviour
 
     public GameObject bullet;
 
+    private Vector2 playerPosition;
+
+    public float speed = 5f;
+
+    private float cooldown = 0.5f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,11 +25,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (fire == true)
+        if (fire == true && cooldown <= 0)
         {
             shootBullet();
+            fire = false;
+            cooldown = 0.5f;
         }
         PlayerMovement();
+        if (cooldown > 0)
+        { 
+            cooldown -= Time.deltaTime;
+        }
     }
 
     void OnMove(InputValue move)
@@ -47,8 +59,10 @@ public class PlayerController : MonoBehaviour
     }
 
     void PlayerMovement()
-    { 
-        
+    {
+        playerPosition = new Vector2(transform.position.x, transform.position.y);
+        playerPosition.x += moveInput.x * Time.deltaTime * speed;
+        transform.position = new Vector2(Mathf.Clamp(playerPosition.x, -19, 19), transform.position.y);
     }
 
 }
