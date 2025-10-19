@@ -15,10 +15,14 @@ public class Bullet : MonoBehaviour
     public delegate void AddScore(int value);
     public static event AddScore scoreAdd;
 
+    [SerializeField]
+    private GameObject bulletPool; // Reference to the BulletPool object
+
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, 4f);
+        bulletPool = GameObject.Find("BulletPool"); // Get the BulletPool object from the scene.
+        Invoke("ReturnToBulletPool", 4f);
     }
 
     // Update is called once per frame
@@ -28,11 +32,19 @@ public class Bullet : MonoBehaviour
         transform.Translate(Vector3.up * yVelocity, Space.Self);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        pointValue = collision.gameObject.tag.ToString();
+        pointValue = other.gameObject.tag.ToString();
         int.TryParse(pointValue, out int value);
         scoreAdd?.Invoke(value);
-        Destroy(gameObject);
+        Destroy(other.gameObject);
+        ReturnToBulletPool();
+    }
+
+    // Method that returns the bullet to the bullet pool
+    private void ReturnToBulletPool()
+    {
+        transform.parent = bulletPool.transform; // Set the parent of the bullet to the bullet pool.
+        gameObject.SetActive(false); // Deactivate the bullet.
     }
 }
