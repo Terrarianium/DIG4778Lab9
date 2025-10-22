@@ -16,10 +16,13 @@ public class PlayerController : MonoBehaviour
 
     private float cooldown = 0.5f;
 
+    [SerializeField]
+    private GameObject bulletPool; // Reference to the BulletPool object
+
     // Start is called before the first frame update
     void Start()
     {
-         
+         bulletPool = GameObject.Find("BulletPool"); // Get the BulletPool object from the scene
     }
 
     // Update is called once per frame
@@ -48,14 +51,17 @@ public class PlayerController : MonoBehaviour
         if (!fire)
         {
             fire = true;
-            Debug.Log(fire);
         }
         
     }
 
     void shootBullet()
     {
-        Instantiate(bullet, new Vector2(transform.position.x, transform.position.y + 1), Quaternion.identity);
+        //Instantiate(bullet, new Vector2(transform.position.x, transform.position.y + 1), Quaternion.identity);
+        GameObject bullet = bulletPool.transform.GetChild(0).gameObject; // Get the first bullet from the pool.
+        bullet.transform.parent = null; // Detach the bullet from the pool.
+        bullet.transform.position = new Vector2(transform.position.x, transform.position.y + 1); // Set the bullet position to the player's position.
+        bullet.SetActive(true); // Activate the bullet.
     }
 
     void PlayerMovement()
