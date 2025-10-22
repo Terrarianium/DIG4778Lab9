@@ -11,4 +11,6 @@ public class ScoreManager
         score = scores.oldScore;
         value = scores.scoreValue;
     }
+
+
 }

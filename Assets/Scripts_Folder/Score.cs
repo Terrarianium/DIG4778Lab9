@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 [System.Serializable]
 
 public class Score : MonoBehaviour
@@ -14,7 +15,12 @@ public class Score : MonoBehaviour
 
     public TMP_Text ScoreText;
 
-    
+    public ScoreManager ScoreManager;
+    public void updateValues()
+    {
+        oldScore = ScoreManager.score;
+        scoreValue = ScoreManager.value;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +38,7 @@ public class Score : MonoBehaviour
         if (scoreNumber != oldScore)
         {
             ScoreUpdate(scoreNumber);
+            updateValues();
         }
     }
 
