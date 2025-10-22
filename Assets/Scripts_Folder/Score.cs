@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using TMPro;
 using UnityEngine;
+[System.Serializable]
 
 public class Score : MonoBehaviour
 {
 
     public static int scoreNumber;
-    private int oldScore;
+    public int oldScore;
     private int scoreValue;
 
     public TMP_Text ScoreText;
