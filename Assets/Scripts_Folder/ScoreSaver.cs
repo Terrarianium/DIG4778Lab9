@@ -4,13 +4,14 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+[System.Serializable]
 
 public static class ScoreSaver
 {
     public static string directory = "SaveData";
     public static string fileName = "MySave.comp3";
 
-    public static void Save(Score score)
+    public static void Save(ScoreManager score)
     {
         if (!DirectoryExists())
         {
@@ -20,9 +21,10 @@ public static class ScoreSaver
         FileStream file = File.Create(GetFullPath());
         bf.Serialize(file, score);
         file.Close();
+        Debug.Log("File closed");
     }
 
-    public static Score Load()
+    public static ScoreManager Load()
     {
         if (SaveExists())
         {
@@ -30,7 +32,7 @@ public static class ScoreSaver
             {
                 BinaryFormatter bf = new BinaryFormatter();
                 FileStream file = File.Open(GetFullPath(), FileMode.Open);
-                Score score = (Score)bf.Deserialize(file);
+                ScoreManager score = (ScoreManager)bf.Deserialize(file);
                 file.Close();
 
                 return score;

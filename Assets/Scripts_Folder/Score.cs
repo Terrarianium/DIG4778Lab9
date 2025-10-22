@@ -10,7 +10,7 @@ public class Score : MonoBehaviour
 
     public static int scoreNumber;
     public int oldScore;
-    private int scoreValue;
+    public int scoreValue;
 
     public TMP_Text ScoreText;
 
