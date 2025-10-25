@@ -1,40 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 public static class ScoreSaver
 {
-    public static string directory = "SaveData";
-    public static string fileName = "MySave.comp3";
+    public static int scoreNumber;
+    public static int oldScore;
+    public static int scoreValue;
 
     public static void Save(ScoreManager score)
     {
-        if (!DirectoryExists())
-        {
-            Directory.CreateDirectory(Application.persistentDataPath + "/" + directory);
-        }
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(GetFullPath());
-        bf.Serialize(file, score);
+        FileStream file;
+
+        if (File.Exists(Application.persistentDataPath + "/save.dat"))
+        {
+            file = File.Open(Application.persistentDataPath + "/save.dat", FileMode.Open);
+        }
+        else
+        {
+            file = File.Create(Application.persistentDataPath + "/save.dat");
+        }
+        ScoreManager scores1 = new ScoreManager();
+        scores1.score1 = scoreNumber;
+        scores1.value1 = scoreValue;
+
+        bf.Serialize(file, scores1);
         file.Close();
         Debug.Log("File closed");
     }
 
     public static ScoreManager Load()
     {
-        if (SaveExists())
+        if (File.Exists(Application.persistentDataPath + "/save.dat"))
         {
             try
             {
                 BinaryFormatter bf = new BinaryFormatter();
-                FileStream file = File.Open(GetFullPath(), FileMode.Open);
-                ScoreManager score = (ScoreManager)bf.Deserialize(file);
+                FileStream file = File.Open(Application.persistentDataPath + "/save.dat", FileMode.Open);
+                ScoreManager scores1 = (ScoreManager)bf.Deserialize(file);
+
+                scoreValue = scores1.value1;
+                scoreValue = scores1.value1;
+
+
                 file.Close();
 
-                return score;
+                Debug.Log("Loading");
             }
             catch (SerializationException)
             {
@@ -45,20 +60,18 @@ public static class ScoreSaver
         return null;
     }
 
-    private static bool SaveExists()
+}
+
+[System.Serializable]
+public class ScoreManager
+{
+    public int score1;
+    public int value1;
+
+    public ScoreManager()
     {
-        return File.Exists(GetFullPath());
+        score1 = new int();
+        value1 = new int();
     }
-
-    private static bool DirectoryExists()
-    { 
-        return Directory.Exists(Application.persistentDataPath + "/" + directory);
-    }
-
-    private static string GetFullPath()
-    {
-        return Application.persistentDataPath + "/" + directory + "/" + fileName;
-    }
-
 
 }

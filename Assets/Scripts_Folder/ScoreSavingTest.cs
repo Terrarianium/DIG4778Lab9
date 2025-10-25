@@ -3,6 +3,7 @@ using UnityEngine;
 public class ScoreSavingTest : MonoBehaviour
 {
     public ScoreManager score;
+
     void OnSave()
     {
         Debug.Log("Began Saving");
