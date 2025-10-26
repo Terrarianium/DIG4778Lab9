@@ -39,6 +39,15 @@ public class PlayerController : MonoBehaviour
         { 
             cooldown -= Time.deltaTime;
         }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SavingService.SaveGame("SaveData.json");
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            SavingService.LoadGame("SaveData.json");
+            Debug.Log("Load");
+        }
     }
 
     void OnMove(InputValue move)
