@@ -114,6 +114,35 @@ public static class SavingService
                         var loadableObject = allLoadableObjects[saveID];
                         loadableObject.LoadFromData(objectData);
                     }
+                    else
+                    {
+                        // Instantiate if missing
+                        if (objectData.ContainsKey("prefab"))
+                        {
+                            string prefabName = (string)objectData["prefab"];
+                            var prefab = Resources.Load<GameObject>(prefabName);
+
+                            if (prefab != null)
+                            {
+                                var newObj = GameObject.Instantiate(prefab);
+                                var saveable = newObj.GetComponent<ISaveable>();
+
+                                if (saveable != null)
+                                {
+                                    saveable.SaveID = (string)objectData["$saveID"];
+                                    saveable.LoadFromData(objectData);
+                                }
+                                else
+                                {
+                                    Debug.LogWarning($"Prefab '{prefabName}' has no ISaveable component.");
+                                }
+                            }
+                            else
+                            {
+                                Debug.LogError($"Prefab not found at Resources path: {prefabName}");
+                            }
+                        }
+                    }
                 }
                 SceneManager.sceneLoaded -= LoadObjectsAfterSceneLoad;
                 LoadObjectsAfterSceneLoad = null;
