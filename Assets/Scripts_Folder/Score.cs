@@ -3,43 +3,56 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Score : MonoBehaviour
 {
+    public static Score Instance;
 
-    public static int scoreNumber;
-    private int oldScore;
-    private int scoreValue;
+    private int scoreNumber1, oldScore1, scoreValue1;
 
     public TMP_Text ScoreText;
 
-    
+    public void updateValues()
+    {
+        //oldScore = ScoreManager.score;
+        //scoreValue = ScoreManager.value;
+        //ScoreManager.Invoke(oldScore, scoreValue);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        scoreNumber = 0;
-        oldScore = 0;
-        scoreValue = 0;
+        scoreNumber1 = ScoreSaver.scoreNumber;
+        oldScore1 = ScoreSaver.oldScore;
+        scoreValue1 = ScoreSaver.scoreValue;
+
+        updateValues();
+
         Bullet.scoreAdd += ScoreUpdate;
-        ScoreUpdate(scoreNumber);
+        ScoreUpdate(scoreNumber1);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (scoreNumber != oldScore)
+        if (scoreNumber1 != oldScore1)
         {
-            ScoreUpdate(scoreNumber);
+            ScoreUpdate(scoreNumber1);
+            updateValues();
         }
     }
 
     void ScoreUpdate(int value)
     {
-        scoreNumber += value;
-        scoreValue = scoreNumber;
-        ScoreText.text = "Score: " + scoreValue.ToString();
+        scoreNumber1 += value;
+        scoreValue1 = scoreNumber1;
+        ScoreText.text = "Score: " + scoreValue1.ToString();
 
-        oldScore = scoreNumber;
+        oldScore1 = scoreNumber1;
+
+        ScoreSaver.scoreNumber = scoreNumber1;
+        ScoreSaver.oldScore = oldScore1;
+        ScoreSaver.scoreValue = scoreValue1;
     }
 }
